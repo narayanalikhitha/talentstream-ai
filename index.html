@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentStream AI - Autonomous HR Agent & Recruitment Console</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- TOP SECURITY BAR -->
+        <header class="top-bar">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>TalentStream <span class="gradient-text">AI</span></h1>
+                    <span class="version-badge">v1.2 (Agentic)</span>
+                </div>
+            </div>
+
+            <!-- SECURITY & AUDIT STATUS -->
+            <div class="security-classification">
+                <span class="shield-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </span>
+                <span class="security-level">CLASSIFIED (PII ENCRYPTED)</span>
+            </div>
+
+            <!-- AGENT ACTIVE WORKSPACE METRICS -->
+            <div class="agent-live-status">
+                <span class="status-pulse-ring active"></span>
+                <span class="status-label">Agent Status: </span>
+                <span id="agentStatusText" class="status-value">Ready</span>
+            </div>
+
+            <!-- ROLE SWITCHER (RBAC) -->
+            <div class="role-switcher-container">
+                <label for="roleSelect">Active Role:</label>
+                <div class="select-wrapper">
+                    <select id="roleSelect" onchange="window.switchRole(this.value)">
+                        <option value="recruiter">HR Recruiter (Full Access)</option>
+                        <option value="manager">Hiring Manager (PII Masked)</option>
+                        <option value="auditor">Compliance Auditor (Audit Only)</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper">
+            <!-- SIDE NAVIGATION BAR -->
+            <aside class="sidebar">
+                <nav class="nav-menu">
+                    <button class="nav-item active" onclick="window.switchTab('dashboard')" id="tabBtn-dashboard">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-item" onclick="window.switchTab('candidates')" id="tabBtn-candidates">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>Candidates Pool</span>
+                        <span class="nav-badge" id="candidateCountBadge">4</span>
+                    </button>
+                    <button class="nav-item" onclick="window.switchTab('agent-console')" id="tabBtn-agent-console">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="4 17 10 11 4 5"></polyline>
+                            <line x1="12" y1="19" x2="20" y2="19"></line>
+                        </svg>
+                        <span>Agent Console</span>
+                        <span class="pulse-indicator"></span>
+                    </button>
+                    <button class="nav-item" onclick="window.switchTab('audit-trail')" id="tabBtn-audit-trail">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <span>Audit & Security</span>
+                    </button>
+                </nav>
+
+                <!-- ACTIVE JOB DESCRIPTIONS LIST -->
+                <div class="sidebar-section">
+                    <h3>Active Job Targets</h3>
+                    <div id="jobTargetsList" class="job-targets-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SYSTEM STATS FOOTER -->
+                <div class="sidebar-footer">
+                    <div class="stat-row">
+                        <span>Agent Engine:</span>
+                        <span class="highlight-text">Gemini 3.5 Flash</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Workspace:</span>
+                        <span class="highlight-text">Local Secure</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- MAIN WORKSPACE VIEWS -->
+            <main class="content-panel">
+                <!-- ================= TAB 1: DASHBOARD ================= -->
+                <section id="tab-dashboard" class="tab-view active">
+                    <div class="view-header">
+                        <div>
+                            <h2>Recruitment Health & Intelligence</h2>
+                            <p>Real-time autonomous screening analytics and critical action points.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-primary btn-iconic" onclick="window.openScreeningModal()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>Screen New Resume</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- METRICS GRID -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon blue">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Resumes Processed</span>
+                                <h3 id="metricProcessed">0</h3>
+                                <span class="metric-trend positive">↑ 100% Fully Automated</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon purple">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Top Fits (&gt;80%)</span>
+                                <h3 id="metricTopFits">0</h3>
+                                <span class="metric-trend neutral">Ready for interview call</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon orange">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Interviews Scheduled</span>
+                                <h3 id="metricInterviews">0</h3>
+                                <span class="metric-trend info">Auto-synced to calendars</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon green">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                            </div>
+                            <div class="metric-details">
+                                <span class="metric-label">Decision Match Accuracy</span>
+                                <h3>94.8%</h3>
+                                <span class="metric-trend positive">Based on supervisor audits</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ANALYTICS AND CRITICAL INSIGHTS SECTION -->
+                    <div class="dashboard-analytics-row">
+                        <!-- GRAPHICS/CHARTS CARD -->
+                        <div class="glass-card chart-card flex-2">
+                            <div class="card-header">
+                                <h3>Talent Pool Distribution & Target Scores</h3>
+                                <span class="badge">Dynamic Chart</span>
+                            </div>
+                            <div class="chart-container">
+                                <!-- Customized SVG representation of the pipeline chart -->
+                                <svg width="100%" height="220" viewBox="0 0 500 220" class="svg-chart" id="dashboardChart">
+                                    <!-- Grid lines -->
+                                    <line x1="50" y1="20" x2="480" y2="20" stroke="var(--bg-card-border)" stroke-width="1" />
+                                    <line x1="50" y1="70" x2="480" y2="70" stroke="var(--bg-card-border)" stroke-width="1" />
+                                    <line x1="50" y1="120" x2="480" y2="120" stroke="var(--bg-card-border)" stroke-width="1" />
+                                    <line x1="50" y1="170" x2="480" y2="170" stroke="var(--bg-card-border)" stroke-width="1" />
+
+                                    <!-- Chart bars will be animated or populated dynamically -->
+                                    <g class="chart-bars" id="chartBarsGroup">
+                                        <!-- Javascript will populate interactive SVG elements -->
+                                    </g>
+                                    
+                                    <!-- Axes -->
+                                    <line x1="50" y1="170" x2="480" y2="170" stroke="var(--text-muted)" stroke-width="1.5" />
+                                    <line x1="50" y1="20" x2="50" y2="170" stroke="var(--text-muted)" stroke-width="1.5" />
+                                </svg>
+                            </div>
+                            <div class="chart-legend" id="chartLegend">
+                                <!-- JS items -->
+                            </div>
+                        </div>
+
+                        <!-- AGENT ALERTS & NOTIFICATIONS -->
+                        <div class="glass-card flex-1">
+                            <div class="card-header">
+                                <h3>Agent Priority Action Alerts</h3>
+                                <span class="badge warning-badge" id="alertCountBadge">3</span>
+                            </div>
+                            <div class="alerts-list" id="dashboardAlerts">
+                                <!-- Dynamic active agent alerts -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LIVE AGENT MONITOR WORKSPACE -->
+                    <div class="glass-card live-agent-monitor">
+                        <div class="card-header">
+                            <div class="agent-activity-title">
+                                <div class="pulse-indicator-large"></div>
+                                <h3>Agent Live Thinking & Workflow Logs</h3>
+                            </div>
+                            <span class="code-badge">gemini-agent-engine-v3</span>
+                        </div>
+                        <div class="agent-console-output" id="dashboardAgentLogs">
+                            <div class="console-line system">[SYSTEM INITIALIZED] Autonomous Screening Engine Listening on Pipeline.</div>
+                            <div class="console-line info">[INFO] Registered Active Role: HR Recruiter. Full PII access granted.</div>
+                            <div class="console-line status">[IDLE] Awaiting incoming natural language requests or resumes for screening...</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= TAB 2: CANDIDATE POOL ================= -->
+                <section id="tab-candidates" class="tab-view">
+                    <div class="view-header">
+                        <div>
+                            <h2>Candidate Screening Hub</h2>
+                            <p>Review comprehensive matching reports, match percentages, and automated outreach strategies.</p>
+                        </div>
+                        <div class="header-filters">
+                            <div class="search-box">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <input type="text" id="candidateSearchInput" placeholder="Filter by name, skills or role..." oninput="window.filterCandidates()">
+                            </div>
+                            <div class="select-wrapper">
+                                <select id="roleFilter" onchange="window.filterCandidates()">
+                                    <option value="all">All Targets</option>
+                                    <!-- Populated via JS -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CANDIDATE GRID AND DETAILED WORKSPACE -->
+                    <div class="candidate-split-layout">
+                        <!-- LEFT CANDIDATE LIST -->
+                        <div class="candidate-list-column glass-card">
+                            <div class="list-title">Candidates (Score Sorted)</div>
+                            <div class="candidate-scroll-list" id="candidateList">
+                                <!-- JS inserts item cards here -->
+                            </div>
+                        </div>
+
+                        <!-- RIGHT DETAILED ANALYSIS PANEL -->
+                        <div class="candidate-detail-column glass-card" id="candidateDetailsPanel">
+                            <div class="empty-detail-state">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                <h4>No Candidate Selected</h4>
+                                <p>Select a candidate from the list to view the AI Scorecard, Skill Analysis, and Automated Outreach Draft.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= TAB 3: AGENT CONSOLE (NL COMMANDS) ================= -->
+                <section id="tab-agent-console" class="tab-view">
+                    <div class="view-header">
+                        <div>
+                            <h2>Autonomous Agent Console</h2>
+                            <p>Directly command the TalentStream Agent via natural language. Review automated tool triggers and outcomes.</p>
+                        </div>
+                    </div>
+
+                    <div class="agent-console-layout">
+                        <!-- COMMAND TERMINAL -->
+                        <div class="terminal-panel glass-card">
+                            <div class="terminal-header">
+                                <div class="terminal-dots">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <span class="terminal-title">talentstream-ai-cli v1.2</span>
+                            </div>
+                            <div class="terminal-body" id="consoleTerminalBody">
+                                <div class="term-line">Welcome to TalentStream AI Command Shell.</div>
+                                <div class="term-line">Type instructions like <span class="term-hl">"Find candidates with Python"</span>, <span class="term-hl">"Mask contact data"</span>, or <span class="term-hl">"Draft emails for top candidates"</span>.</div>
+                                <div class="term-line text-muted">Active Role is set to <span id="terminalActiveRoleText" class="text-info">HR Recruiter</span>.</div>
+                                <!-- Commands list will be appended here -->
+                            </div>
+                            <div class="terminal-input-row">
+                                <span class="prompt-arrow">&gt;</span>
+                                <input type="text" id="consoleCommandLineInput" placeholder="Send natural language command to agent..." autocomplete="off" onkeydown="window.handleConsoleInput(event)">
+                                <button class="btn btn-secondary" onclick="window.submitConsoleCommand()">Execute</button>
+                            </div>
+                        </div>
+
+                        <!-- CHEAT SHEET / PRESET COMMANDS -->
+                        <div class="console-cheatsheet glass-card">
+                            <h3>Quick Agent Commands</h3>
+                            <p>Select any preset below to watch the AI agent process the instruction and invoke specific workflow components.</p>
+                            <div class="preset-commands-list">
+                                <button class="preset-btn" onclick="window.runPresetCommand('Find all software developers with match score above 85%')">
+                                    <strong>🔍 Search & Score:</strong>
+                                    <span>"Find software developers above 85%"</span>
+                                </button>
+                                <button class="preset-btn" onclick="window.runPresetCommand('Generate a recruiting scorecard summary for all candidates')">
+                                    <strong>📊 Analytics Report:</strong>
+                                    <span>"Generate scorecard summary report"</span>
+                                </button>
+                                <button class="preset-btn" onclick="window.runPresetCommand('Draft a highly personalized follow-up email for Elena Rostova')">
+                                    <strong>✉️ Automated outreach:</strong>
+                                    <span>"Draft personalized outreach for Elena Rostova"</span>
+                                </button>
+                                <button class="preset-btn" onclick="window.runPresetCommand('Filter candidates with AWS and Kubernetes experience')">
+                                    <strong>🏷️ Skill Filter:</strong>
+                                    <span>"Filter AWS & Kubernetes experience"</span>
+                                </button>
+                                <button class="preset-btn" onclick="window.runPresetCommand('Change active role to Hiring Manager and enable data scrubbing')">
+                                    <strong>🔒 Data Security:</strong>
+                                    <span>"Change role to Hiring Manager"</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= TAB 4: AUDIT TRAIL ================= -->
+                <section id="tab-audit-trail" class="tab-view">
+                    <div class="view-header">
+                        <div>
+                            <h2>Compliance, RBAC & Audit Trail</h2>
+                            <p>Immutable log of human activities and AI agent autonomous operations for security and compliance audits.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary" onclick="window.clearAuditLogs()">Clear Log History</button>
+                            <button class="btn btn-primary btn-iconic" onclick="window.exportAuditLogs()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span>Export Audit JSON</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="audit-summary-strip">
+                        <div class="strip-item">
+                            <span class="label">Compliance Status</span>
+                            <span class="value success-badge">
+                                <span class="dot-indicator"></span> SOC-2 Compliant
+                            </span>
+                        </div>
+                        <div class="strip-item">
+                            <span class="label">Data Encryption</span>
+                            <span class="value highlight-text">AES-256 (PII Redacted)</span>
+                        </div>
+                        <div class="strip-item">
+                            <span class="label">Total Audited Events</span>
+                            <span class="value" id="auditCountText">0</span>
+                        </div>
+                    </div>
+
+                    <!-- AUDIT TABLE -->
+                    <div class="glass-card audit-table-card">
+                        <div class="search-strip">
+                            <input type="text" id="auditSearchInput" placeholder="Filter audit trail by action, role, operator or description..." oninput="window.filterAuditLogs()">
+                        </div>
+                        <div class="table-scroll-container">
+                            <table class="audit-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Operator Role</th>
+                                        <th>Action Type</th>
+                                        <th>Target Component</th>
+                                        <th>Details / Payload</th>
+                                        <th>Verification Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditLogsTableBody">
+                                    <!-- Dynamic rows from JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- ================= RESUME SCREENING MODAL ================= -->
+    <div class="modal-backdrop" id="screeningModal">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <h3>Autonomous AI Candidate Screening</h3>
+                <button class="close-btn" onclick="window.closeScreeningModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-split">
+                    <!-- INPUT FIELDS -->
+                    <div class="modal-inputs flex-1">
+                        <div class="form-group">
+                            <label for="modalCandidateName">Candidate Full Name *</label>
+                            <input type="text" id="modalCandidateName" placeholder="e.g. Liam Vance" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalCandidateContact">Contact Details (PII) *</label>
+                            <input type="text" id="modalCandidateContact" placeholder="e.g. liam.vance@gmail.com, (555) 321-9876" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalJobSelect">Target Job Profile *</label>
+                            <div class="select-wrapper">
+                                <select id="modalJobSelect">
+                                    <!-- JS will populate options -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalResumeText">Resume Text / CV Content *</label>
+                            <textarea id="modalResumeText" rows="8" placeholder="Paste the CV contents here (Experience, Education, Key Technical Skills, Certifications...)" required></textarea>
+                        </div>
+                        <div class="preset-links">
+                            <span>Use Sample:</span>
+                            <button type="button" class="link-btn" onclick="window.fillSampleResume('backend')">Backend Candidate</button>
+                            <button type="button" class="link-btn" onclick="window.fillSampleResume('product')">Product Manager</button>
+                        </div>
+                    </div>
+
+                    <!-- VISUAL AGENT THINKING PIPELINE (SHOWN DURING RUN) -->
+                    <div class="modal-agent-thinking flex-1" id="modalAgentThinkingPanel">
+                        <div class="thinking-header">
+                            <span class="status-pulse-ring active"></span>
+                            <h4>Agent Processing Terminal</h4>
+                        </div>
+                        <div class="thinking-console" id="modalAgentThinkingConsole">
+                            <div class="console-line system">[IDLE] Waiting for screening execution to start...</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="modalProgressBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="window.closeScreeningModal()">Cancel</button>
+                <button class="btn btn-primary" id="btnRunScreening" onclick="window.runScreeningPipeline()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 2 15 22 11 13 2 9 22 2"></polyline>
+                        <line x1="11" y1="13" x2="22" y2="2"></line>
+                    </svg>
+                    <span>Execute AI Screening</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
