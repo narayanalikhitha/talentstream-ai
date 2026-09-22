@@ -6,20 +6,20 @@ from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
 # ======================================================================
-# HUMAN-STYLE STUDENT PPT — looks like a student built it in PowerPoint
-# Varied layouts, personal language, natural imperfections
-# Based on: AI_Crop_Disease_Detection_Internship_Presentation.pptx style
-# Colors from reference: Green #1F6F50, Navy #1B3B5F, Amber #E8A33D
+# HUMAN-STYLE STUDENT PPT — BLUE THEME
+# Roll No: 239x1a3391 | Dept: CSE-(AI&ML) | Name: Narayana Likhitha
+# Color Palette: Deep Blue #184C8C, Navy #0F2C59, Amber #E8A33D
 # ======================================================================
 
-G  = RGBColor(31, 111, 80)
-NV = RGBColor(27, 59, 95)
-AM = RGBColor(232, 163, 61)
-W  = RGBColor(255, 255, 255)
-SF = RGBColor(244, 248, 246)
-DT = RGBColor(30, 42, 40)
-MT = RGBColor(92, 107, 104)
-LG = RGBColor(210, 235, 220)
+BL = RGBColor(24, 76, 140)     # Deep Royal Blue (replaced Green)
+NV = RGBColor(15, 44, 89)      # Deep Navy Blue (headings)
+AM = RGBColor(232, 163, 61)    # Amber Gold (accent/bullets/highlights)
+W  = RGBColor(255, 255, 255)   # White
+SF = RGBColor(240, 244, 248)   # Soft Blue-White card background
+DT = RGBColor(30, 42, 54)      # Dark body text
+MT = RGBColor(90, 105, 120)    # Muted subtitle text
+LB = RGBColor(205, 224, 242)   # Light blue card border
+DB = RGBColor(12, 45, 90)      # Badge dark blue
 
 downloads_dir = os.path.expanduser(r"~\Downloads")
 img_s8  = os.path.join(downloads_dir, "Slide8_Dashboard_Overview.jpg")
@@ -71,57 +71,56 @@ def add_bullets_tf(slide, l, t, w, h, items, size=12.5, color=DT, space=8):
     return tf
 
 def inner_page(slide, title, subtitle=None):
-    """Standard inner slide: white bg, green left bar, navy title, amber underline."""
+    """Standard inner slide: white bg, blue left bar, navy title, amber underline."""
     rect(slide, 0, 0, 13.333, 7.5, W)
-    rect(slide, 0, 0, 0.35, 7.5, G)
+    rect(slide, 0, 0, 0.35, 7.5, BL)
     tb(slide, 0.6, 0.2, 12.0, 0.7, title, 28, bold=True, color=NV)
     rect(slide, 0.6, 0.88, 2.2, 0.05, AM)
     if subtitle:
         tb(slide, 0.6, 0.96, 11.5, 0.4, subtitle, 13, color=MT)
 
 # ==========================================================================
-# SLIDE 1: TITLE SLIDE — Full green top, details below (like reference)
+# SLIDE 1: TITLE SLIDE — Blue top banner, student info cards below
 # ==========================================================================
 s1 = blank()
 rect(s1, 0, 0, 13.333, 7.5, W)
-rect(s1, 0, 0, 13.333, 3.7, G)
+rect(s1, 0, 0, 13.333, 3.7, BL)
 
 # Badge tag
-rrect(s1, 0.7, 0.3, 5.5, 0.42, RGBColor(20, 85, 58), AM, 1.0)
+rrect(s1, 0.7, 0.3, 5.5, 0.42, DB, AM, 1.0)
 tb(s1, 0.7, 0.32, 5.5, 0.38, "SUMMER INTERNSHIP PRESENTATION", 10.5, bold=True, color=AM, align=PP_ALIGN.CENTER)
 
 # Title
 tb(s1, 0.7, 0.88, 12.0, 1.25, "TalentStream AI", 46, bold=True, color=W)
 tb(s1, 0.7, 2.1, 11.5, 0.55,
    "Autonomous HR Recruitment, Candidate Screening & Outreach Agent",
-   16, bold=True, color=RGBColor(195, 232, 210))
+   16, bold=True, color=RGBColor(200, 225, 255))
 tb(s1, 0.7, 2.72, 11.0, 0.45,
    "AI-powered tool that eliminates manual resume screening and automates candidate outreach",
-   12, color=RGBColor(170, 210, 188))
+   12, color=RGBColor(180, 210, 245))
 
-# Info boxes (5 boxes matching reference style)
+# Info boxes (5 student detail cards)
 info = [
     ("Presenter",    "Narayana Likhitha"),
-    ("Roll No.",     "[Your Roll Number]"),
-    ("Department",   "Computer Science & Engineering (CSE)"),
+    ("Roll No.",     "239x1a3391"),
+    ("Department",   "CSE-(AI&ML)"),
     ("Organization", "AI Workflow Solutions / Industry Partner"),
     ("Internship Role", "AI Intern"),
 ]
 positions = [(0.7, 3.9), (4.0, 3.9), (7.3, 3.9), (0.7, 5.6), (4.0, 5.6)]
 for (lbl, val), (lx, ty) in zip(info, positions):
-    rrect(s1, lx, ty, 3.0, 1.52, W, RGBColor(200, 225, 210), 1.0)
-    rrect(s1, lx, ty, 3.0, 0.48, SF, RGBColor(200, 225, 210), 0.8)
+    rrect(s1, lx, ty, 3.0, 1.52, W, LB, 1.0)
+    rrect(s1, lx, ty, 3.0, 0.48, SF, LB, 0.8)
     tb(s1, lx+0.15, ty+0.06, 2.7, 0.38, lbl, 11, bold=True, color=NV)
-    tb(s1, lx+0.15, ty+0.55, 2.7, 0.85, val, 12.5, color=DT)
+    tb(s1, lx+0.15, ty+0.55, 2.7, 0.85, val, 12.5, bold=(lbl in ["Roll No.", "Department"]), color=DT)
 
 s1.notes_slide.notes_text_frame.text = (
-    "Good morning everyone. My name is Narayana Likhitha and this is my Summer Internship "
-    "presentation. During my internship as an AI Intern, I built TalentStream AI — a tool that "
-    "automatically screens job resumes and writes personalized emails for candidates."
+    "Good morning everyone. My name is Narayana Likhitha, Roll No. 239x1a3391 from CSE-(AI&ML). "
+    "This is my Summer Internship presentation on TalentStream AI."
 )
 
 # ==========================================================================
-# SLIDE 2: INTERNSHIP OVERVIEW — info cards layout (like reference slide 2)
+# SLIDE 2: INTERNSHIP OVERVIEW — Blue themed info cards
 # ==========================================================================
 s2 = blank()
 inner_page(s2, "Internship Overview", "A quick look at my role and what I did during the internship")
@@ -135,8 +134,8 @@ overview = [
 ]
 positions2 = [(0.6, 1.5), (4.65, 1.5), (8.7, 1.5), (0.6, 3.85), (4.65, 3.85)]
 for (lbl, val), (lx, ty) in zip(overview, positions2):
-    rrect(s2, lx, ty, 3.75, 1.95, W, RGBColor(200, 225, 210), 1.0)
-    rrect(s2, lx, ty, 3.75, 0.52, SF, RGBColor(200, 225, 210), 0.8)
+    rrect(s2, lx, ty, 3.75, 1.95, W, LB, 1.0)
+    rrect(s2, lx, ty, 3.75, 0.52, SF, LB, 0.8)
     tb(s2, lx+0.15, ty+0.07, 3.45, 0.4, lbl, 12, bold=True, color=NV)
     tb(s2, lx+0.15, ty+0.58, 3.45, 1.25, val, 12.5, color=DT)
 
@@ -151,7 +150,7 @@ s2.notes_slide.notes_text_frame.text = (
 s3 = blank()
 inner_page(s3, "About the Organization", "Context of where I worked and what they do")
 
-rect(s3, 0.6, 1.42, 12.0, 0.02, G)
+rect(s3, 0.6, 1.42, 12.0, 0.02, BL)
 
 points = [
     "Works in the field of Artificial Intelligence and enterprise software development.",
@@ -163,8 +162,8 @@ points = [
 ]
 for i, pt in enumerate(points):
     ty = 1.55 + i * 0.95
-    rrect(s3, 0.6, ty, 12.0, 0.82, SF, RGBColor(200, 225, 210), 1.0)
-    rect(s3, 0.6, ty, 0.1, 0.82, G)
+    rrect(s3, 0.6, ty, 12.0, 0.82, SF, LB, 1.0)
+    rect(s3, 0.6, ty, 0.1, 0.82, BL)
     tb(s3, 0.85, ty + 0.13, 11.5, 0.6, pt, 12.5, color=DT)
 
 s3.notes_slide.notes_text_frame.text = (
@@ -179,8 +178,8 @@ s4 = blank()
 inner_page(s4, "Problem Statement & Internship Objectives", "What problem exists and what I was asked to solve")
 
 # Left: problem
-rrect(s4, 0.6, 1.42, 5.8, 5.5, SF, RGBColor(200, 225, 210), 1.0)
-rect(s4, 0.6, 1.42, 0.1, 5.5, G)
+rrect(s4, 0.6, 1.42, 5.8, 5.5, SF, LB, 1.0)
+rect(s4, 0.6, 1.42, 0.1, 5.5, BL)
 tb(s4, 0.85, 1.5, 5.35, 0.42, "The Problem", 14, bold=True, color=NV)
 rect(s4, 0.85, 1.9, 1.8, 0.04, AM)
 add_bullets_tf(s4, 0.85, 1.98, 5.3, 4.7, [
@@ -193,10 +192,10 @@ add_bullets_tf(s4, 0.85, 1.98, 5.3, 4.7, [
 ], size=12, color=DT, space=10)
 
 # Right: objectives
-rrect(s4, 6.85, 1.42, 5.85, 5.5, W, RGBColor(200, 225, 210), 1.0)
+rrect(s4, 6.85, 1.42, 5.85, 5.5, W, LB, 1.0)
 rect(s4, 6.85, 1.42, 0.1, 5.5, AM)
 tb(s4, 7.1, 1.5, 5.5, 0.42, "My Objectives", 14, bold=True, color=NV)
-rect(s4, 7.1, 1.9, 1.8, 0.04, G)
+rect(s4, 7.1, 1.9, 1.8, 0.04, BL)
 add_bullets_tf(s4, 7.1, 1.98, 5.5, 4.7, [
     "\u2022 Screen resumes in under 2 minutes automatically",
     "\u2022 Score candidates 0\u2013100% against job requirements",
@@ -212,7 +211,7 @@ s4.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 5: HOW IT WORKS — numbered steps (like reference timeline style)
+# SLIDE 5: HOW IT WORKS — numbered steps in Blue
 # ==========================================================================
 s5 = blank()
 inner_page(s5, "How TalentStream AI Works", "Step-by-step working of the system")
@@ -226,8 +225,8 @@ steps = [
 ]
 for i, (num, title, body) in enumerate(steps):
     lx = 0.6 + i * 2.5
-    rrect(s5, lx, 1.42, 2.35, 5.5, SF, RGBColor(200, 225, 210), 1.0)
-    rect(s5, lx, 1.42, 2.35, 0.72, G)
+    rrect(s5, lx, 1.42, 2.35, 5.5, SF, LB, 1.0)
+    rect(s5, lx, 1.42, 2.35, 0.72, BL)
     # Number circle
     oval = s5.shapes.add_shape(MSO_SHAPE.OVAL, Inches(lx+0.82), Inches(1.5), Inches(0.72), Inches(0.6))
     oval.fill.solid(); oval.fill.fore_color.rgb = AM; oval.line.fill.background()
@@ -241,7 +240,7 @@ s5.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 6: TECHNOLOGY STACK — 5-column like reference
+# SLIDE 6: TECHNOLOGY STACK — 5-column blue headers
 # ==========================================================================
 s6 = blank()
 inner_page(s6, "Technology Stack", "Tools and technologies used to build the system")
@@ -255,8 +254,8 @@ tech = [
 ]
 for i, (cat, items) in enumerate(tech):
     lx = 0.6 + i * 2.5
-    rrect(s6, lx, 1.42, 2.35, 5.5, SF, RGBColor(200, 225, 210), 1.0)
-    rect(s6, lx, 1.42, 2.35, 0.58, G)
+    rrect(s6, lx, 1.42, 2.35, 5.5, SF, LB, 1.0)
+    rect(s6, lx, 1.42, 2.35, 0.58, BL)
     tb(s6, lx+0.12, 1.48, 2.1, 0.48, cat, 13, bold=True, color=W, align=PP_ALIGN.CENTER)
     add_bullets_tf(s6, lx+0.15, 2.08, 2.05, 4.6, [f"\u2022  {it}" for it in items], size=11.5, color=DT, space=12)
 
@@ -266,7 +265,7 @@ s6.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 7: CORE FEATURES / MODULES — matching reference's 5-column layout
+# SLIDE 7: CORE FEATURES / MODULES — blue theme
 # ==========================================================================
 s7 = blank()
 inner_page(s7, "Core Features Built", "Five main modules developed during the internship")
@@ -305,8 +304,8 @@ modules = [
 ]
 for i, (mod_name, items) in enumerate(modules):
     lx = 0.6 + i * 2.5
-    rrect(s7, lx, 1.42, 2.35, 5.5, SF, RGBColor(200, 225, 210), 1.0)
-    rect(s7, lx, 1.42, 2.35, 0.72, G)
+    rrect(s7, lx, 1.42, 2.35, 5.5, SF, LB, 1.0)
+    rect(s7, lx, 1.42, 2.35, 0.72, BL)
     tb(s7, lx+0.12, 1.48, 2.1, 0.65, mod_name, 12, bold=True, color=W, align=PP_ALIGN.CENTER)
     add_bullets_tf(s7, lx+0.15, 2.22, 2.05, 4.5, items, size=11.5, color=DT, space=12)
 
@@ -316,7 +315,7 @@ s7.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 8: SCREENSHOT 1 — Dashboard (half-half layout like ref slides 9/10)
+# SLIDE 8: SCREENSHOT 1 — Analytics Dashboard
 # ==========================================================================
 s8 = blank()
 inner_page(s8, "Output: Analytics Dashboard", "What the main screen looks like")
@@ -324,11 +323,11 @@ inner_page(s8, "Output: Analytics Dashboard", "What the main screen looks like")
 if os.path.exists(img_s8):
     s8.shapes.add_picture(img_s8, Inches(0.6), Inches(1.42), Inches(7.0), Inches(5.4))
 else:
-    rrect(s8, 0.6, 1.42, 7.0, 5.4, SF, G, 1.2)
+    rrect(s8, 0.6, 1.42, 7.0, 5.4, SF, BL, 1.2)
 
 # Right callouts
-rrect(s8, 7.85, 1.42, 5.1, 5.4, W, RGBColor(200, 225, 210), 1.0)
-rect(s8, 7.85, 1.42, 0.1, 5.4, G)
+rrect(s8, 7.85, 1.42, 5.1, 5.4, W, LB, 1.0)
+rect(s8, 7.85, 1.42, 0.1, 5.4, BL)
 tb(s8, 8.1, 1.52, 4.7, 0.42, "Key Features on this Screen", 13, bold=True, color=NV)
 rect(s8, 8.1, 1.92, 2.0, 0.04, AM)
 add_bullets_tf(s8, 8.1, 2.02, 4.65, 4.6, [
@@ -355,14 +354,14 @@ if os.path.exists(img_s9):
 else:
     rrect(s9, 0.6, 1.42, 7.0, 5.4, SF, NV, 1.2)
 
-rrect(s9, 7.85, 1.42, 5.1, 5.4, W, RGBColor(200, 225, 210), 1.0)
+rrect(s9, 7.85, 1.42, 5.1, 5.4, W, LB, 1.0)
 rect(s9, 7.85, 1.42, 0.1, 5.4, NV)
 tb(s9, 8.1, 1.52, 4.7, 0.42, "How This Helps Recruiters", 13, bold=True, color=NV)
 rect(s9, 8.1, 1.92, 2.0, 0.04, AM)
 add_bullets_tf(s9, 8.1, 2.02, 4.65, 4.6, [
     "\u2022 Candidate list sorted by match score (highest first)",
     "\u2022 Example: Elena Rostova scored 92% match",
-    "\u2022 Verified skills shown in green (Python, AWS, PostgreSQL)",
+    "\u2022 Verified skills highlighted (Python, AWS, PostgreSQL)",
     "\u2022 Missing skills flagged for interview preparation",
     "\u2022 AI writes a personalized email — recruiter just reviews and sends",
 ], size=12, color=DT, space=10)
@@ -383,10 +382,10 @@ if os.path.exists(img_s10):
 else:
     rrect(s10, 0.6, 1.42, 7.0, 5.4, SF, AM, 1.2)
 
-rrect(s10, 7.85, 1.42, 5.1, 5.4, W, RGBColor(200, 225, 210), 1.0)
+rrect(s10, 7.85, 1.42, 5.1, 5.4, W, LB, 1.0)
 rect(s10, 7.85, 1.42, 0.1, 5.4, AM)
 tb(s10, 8.1, 1.52, 4.7, 0.42, "What You Can Do Here", 13, bold=True, color=NV)
-rect(s10, 8.1, 1.92, 2.0, 0.04, G)
+rect(s10, 8.1, 1.92, 2.0, 0.04, BL)
 add_bullets_tf(s10, 8.1, 2.02, 4.65, 4.6, [
     "\u2022 Type: 'Find candidates with Python score >85%'",
     "\u2022 Agent executes the command and shows results",
@@ -420,7 +419,7 @@ data = [
 ]
 for ci, h in enumerate(hdr):
     cell = table.cell(0, ci)
-    cell.fill.solid(); cell.fill.fore_color.rgb = G
+    cell.fill.solid(); cell.fill.fore_color.rgb = BL
     p = cell.text_frame.paragraphs[0]
     r = p.add_run(); r.text = h
     r.font.size = Pt(11.5); r.font.bold = True; r.font.color.rgb = W
@@ -438,7 +437,7 @@ for ri, row in enumerate(data):
         r.font.color.rgb = NV if ci == 0 else (AM if "Masked" in val else DT)
 
 # explanation below
-rrect(s11, 0.6, 5.22, 12.0, 1.7, SF, RGBColor(200, 225, 210), 1.0)
+rrect(s11, 0.6, 5.22, 12.0, 1.7, SF, LB, 1.0)
 rect(s11, 0.6, 5.22, 0.1, 1.7, AM)
 tb(s11, 0.85, 5.3, 11.5, 0.38, "Why is this important?", 13, bold=True, color=NV)
 add_bullets_tf(s11, 0.85, 5.72, 11.5, 1.05, [
@@ -453,7 +452,7 @@ s11.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 12: INTERNSHIP TIMELINE — numbered like reference slide 8
+# SLIDE 12: INTERNSHIP TIMELINE — numbered steps in Blue
 # ==========================================================================
 s12 = blank()
 inner_page(s12, "Internship Timeline", "10 weeks, four development stages")
@@ -482,8 +481,8 @@ timeline = [
 ]
 for i, (num, weeks, phase, items) in enumerate(timeline):
     lx = 0.6 + i * 3.05
-    rrect(s12, lx, 1.42, 2.88, 5.5, SF, RGBColor(200, 225, 210), 1.0)
-    rect(s12, lx, 1.42, 2.88, 0.72, G)
+    rrect(s12, lx, 1.42, 2.88, 5.5, SF, LB, 1.0)
+    rect(s12, lx, 1.42, 2.88, 0.72, BL)
     oval = s12.shapes.add_shape(MSO_SHAPE.OVAL, Inches(lx+1.08), Inches(1.48), Inches(0.72), Inches(0.62))
     oval.fill.solid(); oval.fill.fore_color.rgb = AM; oval.line.fill.background()
     tb(s12, lx+1.13, 1.52, 0.62, 0.55, num, 17, bold=True, color=W, align=PP_ALIGN.CENTER)
@@ -497,7 +496,7 @@ s12.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 13: RESULTS & OUTCOMES — list with icons (like ref slide 11)
+# SLIDE 13: RESULTS & OUTCOMES — blue theme
 # ==========================================================================
 s13 = blank()
 inner_page(s13, "Results & Outcomes", "What was achieved during the internship")
@@ -515,8 +514,8 @@ for i, (title, body) in enumerate(results):
     row = i // 2
     lx = 0.6 if col == 0 else 6.95
     ty = 1.42 + row * 1.95
-    rrect(s13, lx, ty, 5.98, 1.78, SF, RGBColor(200, 225, 210), 1.0)
-    rect(s13, lx, ty, 0.1, 1.78, G if col == 0 else AM)
+    rrect(s13, lx, ty, 5.98, 1.78, SF, LB, 1.0)
+    rect(s13, lx, ty, 0.1, 1.78, BL if col == 0 else AM)
     tb(s13, lx+0.22, ty+0.12, 5.6, 0.42, title, 13, bold=True, color=NV)
     tb(s13, lx+0.22, ty+0.58, 5.6, 1.05, body, 12, color=DT)
 
@@ -526,14 +525,14 @@ s13.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 14: CONCLUSION & LEARNING — two column like reference slide 12
+# SLIDE 14: CONCLUSION & LEARNING
 # ==========================================================================
 s14 = blank()
 inner_page(s14, "Conclusion & Learning", "Summary and key takeaways from the internship")
 
 # Summary bar
-rrect(s14, 0.6, 1.42, 12.0, 1.32, SF, RGBColor(200, 225, 210), 1.0)
-rect(s14, 0.6, 1.42, 0.1, 1.32, G)
+rrect(s14, 0.6, 1.42, 12.0, 1.32, SF, LB, 1.0)
+rect(s14, 0.6, 1.42, 0.1, 1.32, BL)
 tb(s14, 0.85, 1.5, 11.5, 0.38, "Project Summary", 13, bold=True, color=NV)
 tb(s14, 0.85, 1.9, 11.5, 0.72,
    "Successfully built and deployed TalentStream AI — a fully autonomous HR recruitment assistant that screens resumes, "
@@ -541,8 +540,8 @@ tb(s14, 0.85, 1.9, 11.5, 0.72,
    12, color=DT)
 
 # Key Learnings
-rrect(s14, 0.6, 2.95, 5.85, 4.0, W, RGBColor(200, 225, 210), 1.0)
-rect(s14, 0.6, 2.95, 0.1, 4.0, G)
+rrect(s14, 0.6, 2.95, 5.85, 4.0, W, LB, 1.0)
+rect(s14, 0.6, 2.95, 0.1, 4.0, BL)
 tb(s14, 0.85, 3.03, 5.45, 0.42, "Key Learnings", 13, bold=True, color=NV)
 rect(s14, 0.85, 3.45, 1.6, 0.04, AM)
 add_bullets_tf(s14, 0.85, 3.55, 5.45, 3.25, [
@@ -554,10 +553,10 @@ add_bullets_tf(s14, 0.85, 3.55, 5.45, 3.25, [
 ], size=12.5, color=DT, space=11)
 
 # Future Scope
-rrect(s14, 6.82, 2.95, 5.85, 4.0, W, RGBColor(200, 225, 210), 1.0)
+rrect(s14, 6.82, 2.95, 5.85, 4.0, W, LB, 1.0)
 rect(s14, 6.82, 2.95, 0.1, 4.0, AM)
 tb(s14, 7.07, 3.03, 5.45, 0.42, "Future Scope", 13, bold=True, color=NV)
-rect(s14, 7.07, 3.45, 1.6, 0.04, G)
+rect(s14, 7.07, 3.45, 1.6, 0.04, BL)
 add_bullets_tf(s14, 7.07, 3.55, 5.45, 3.25, [
     "\u2022 Multi-language resume translation & parsing",
     "\u2022 Direct integration with Workday / Greenhouse",
@@ -572,30 +571,31 @@ s14.notes_slide.notes_text_frame.text = (
 )
 
 # ==========================================================================
-# SLIDE 15: THANK YOU — full green background like reference
+# SLIDE 15: THANK YOU — full blue background
 # ==========================================================================
 s15 = blank()
-rect(s15, 0, 0, 13.333, 7.5, G)
+rect(s15, 0, 0, 13.333, 7.5, BL)
 
 tb(s15, 0.7, 1.8, 11.9, 2.0, "THANK YOU", 64, bold=True, color=W, align=PP_ALIGN.CENTER)
 tb(s15, 0.7, 3.85, 11.9, 0.8, "Any Questions?", 28, color=AM, align=PP_ALIGN.CENTER)
 tb(s15, 0.7, 4.75, 11.9, 0.5,
-   "Narayana Likhitha  |  AI Intern  |  github.com/narayanalikhitha/talentstream-ai",
-   14, color=RGBColor(175, 215, 190), align=PP_ALIGN.CENTER)
+   "Narayana Likhitha  |  239x1a3391  |  CSE-(AI&ML)  |  AI Intern",
+   14, color=RGBColor(190, 220, 250), align=PP_ALIGN.CENTER)
 
 s15.notes_slide.notes_text_frame.text = (
     "Thank you so much for your time and guidance during this evaluation. I am happy to take any questions!"
 )
 
 # ==========================================================================
-# SAVE
+# SAVE TO BOTH FILES FOR EASY ACCESS
 # ==========================================================================
-outfile = os.path.join(downloads_dir, "TalentStream_AI_Presentation_HumanStyle.pptx")
-outfile_proj = os.path.join(r"C:\Users\likhi\.gemini\antigravity\scratch\talentstream-ai",
-                            "TalentStream_AI_Final_Presentation.pptx")
-prs.save(outfile)
-try:
-    prs.save(outfile_proj)
-except Exception:
-    pass
-print(f"[SUCCESS] Saved: {outfile}")
+outfile_blue = os.path.join(downloads_dir, "TalentStream_AI_Presentation_BlueTheme.pptx")
+outfile_final = os.path.join(downloads_dir, "TalentStream_AI_Final_Presentation.pptx")
+outfile_proj  = os.path.join(r"C:\Users\likhi\.gemini\antigravity\scratch\talentstream-ai", "TalentStream_AI_Final_Presentation.pptx")
+
+for path in [outfile_blue, outfile_final, outfile_proj]:
+    try:
+        prs.save(path)
+        print(f"[SUCCESS] Saved: {path}")
+    except Exception as e:
+        print(f"[WARNING] Could not save to {path}: {e}")
