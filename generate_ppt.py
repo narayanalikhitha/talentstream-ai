@@ -2,7 +2,7 @@ import os
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
 def create_corporate_deck():
@@ -12,64 +12,64 @@ def create_corporate_deck():
     blank_layout = prs.slide_layouts[6]
 
     # =========================================================================
-    # PREMIUM MIDNIGHT NAVY & ELECTRIC CYAN / ROYAL GOLD THEME
-    # Deep, ultra-clean corporate aesthetic (Not washed-out white, not pure black)
+    # HIGH-CONTRAST CLEAN EXECUTIVE THEME
+    # Fresh Pearl Canvas (#F1F5F9) + Deep Navy Headers (#0F172A) + Crisp White Structured Cards
     # =========================================================================
-    BG_CANVAS     = RGBColor(15, 23, 42)    # #0f172a (Deep Slate / Midnight Navy)
-    HEADER_BAR    = RGBColor(30, 41, 59)    # #1e293b (Subtle top navbar)
-    CARD_BG       = RGBColor(30, 41, 59)    # #1e293b (Slate-800 Card Base)
-    CARD_HEADER   = RGBColor(51, 65, 85)    # #334155 (Slate-700 Card Header Band)
-    CARD_BORDER   = RGBColor(71, 85, 105)   # #475569 (Slate-600 Clean Structural Edge)
+    BG_CANVAS     = RGBColor(241, 245, 249) # #f1f5f9 (Soft Pearl Canvas - Makes white cards pop!)
+    HEADER_BAR    = RGBColor(15, 23, 42)    # #0f172a (Deep Midnight Navy Header Bar)
+    CARD_BG       = RGBColor(255, 255, 255) # #ffffff (Crisp Solid White Cards)
+    CARD_HEADER   = RGBColor(248, 250, 252) # #f8fafc (Subtle Card Header Band)
+    CARD_BORDER   = RGBColor(203, 213, 225) # #cbd5e1 (Slate-300 Crisp Structural Outline)
     
-    PRIMARY_CYAN  = RGBColor(14, 165, 233)  # #0ea5e9 (Electric Sky Blue)
-    ACCENT_INDIGO = RGBColor(99, 102, 241)  # #6366f1 (Tech Indigo)
-    ACCENT_EMERALD= RGBColor(16, 185, 129)  # #10b981 (Success Emerald)
-    ACCENT_AMBER  = RGBColor(245, 158, 11)  # #f59e0b (Warm Amber Gold)
+    PRIMARY_BLUE  = RGBColor(2, 132, 199)   # #0284c7 (Sky/Royal Blue)
+    ACCENT_INDIGO = RGBColor(79, 70, 229)   # #4f46e5 (Tech Indigo)
+    ACCENT_EMERALD= RGBColor(13, 148, 136)  # #0d9488 (Teal/Emerald)
+    ACCENT_AMBER  = RGBColor(217, 119, 6)   # #d97706 (Amber)
     
-    TEXT_WHITE    = RGBColor(248, 250, 252) # #f8fafc (Crisp White Heading)
-    TEXT_LIGHT    = RGBColor(226, 232, 240) # #e2e8f0 (High-Contrast Clean Text)
-    TEXT_MUTED    = RGBColor(148, 163, 184) # #94a3b8 (Subtle Supporting Text)
+    TEXT_WHITE    = RGBColor(255, 255, 255) # #ffffff (Title on Navy Header)
+    TEXT_DARK     = RGBColor(15, 23, 42)    # #0f172a (Deep Slate Headings)
+    TEXT_BODY     = RGBColor(51, 65, 85)    # #334155 (Slate 700 Readable Text)
+    TEXT_MUTED    = RGBColor(100, 116, 139) # #64748b (Slate 500 Supporting Text)
 
     downloads_dir = os.path.expanduser(r"~\Downloads")
     img_s8 = os.path.join(downloads_dir, "Slide8_Dashboard_Overview.jpg")
     img_s9 = os.path.join(downloads_dir, "Slide9_Candidate_Scorecard.jpg")
     img_s10 = os.path.join(downloads_dir, "Slide10_Agent_Console_Audit.jpg")
 
-    def build_slide_base(slide, title, category="TALENTSTREAM AI • SUMMER INTERNSHIP FINAL PROJECT"):
-        # Full Canvas
+    def build_slide_base(slide, title, category="TALENTSTREAM AI • SUMMER INTERNSHIP FINAL DEFENSE"):
+        # 1. Full Canvas Background (Clean Pearl Gray)
         bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
         bg.fill.solid()
         bg.fill.fore_color.rgb = BG_CANVAS
         bg.line.fill.background()
 
-        # Top Header Banner Bar
-        top_bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(1.3))
+        # 2. Top Header Bar (Deep Navy Contrast)
+        top_bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(1.35))
         top_bar.fill.solid()
         top_bar.fill.fore_color.rgb = HEADER_BAR
-        top_bar.line.color.rgb = CARD_BORDER
-        top_bar.line.width = Pt(1.0)
+        top_bar.line.fill.background()
 
-        # Decorative Vibrant Top Strip
-        strip = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(0.08))
-        strip.fill.solid()
-        strip.fill.fore_color.rgb = PRIMARY_CYAN
-        strip.line.fill.background()
+        # 3. Vibrant Accent Line Below Header
+        accent_line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, Inches(1.32), Inches(13.333), Inches(0.05))
+        accent_line.fill.solid()
+        accent_line.fill.fore_color.rgb = PRIMARY_BLUE
+        accent_line.line.fill.background()
 
-        # Category Pill
+        # 4. Category Tracker Pill
         pill = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(0.2), Inches(5.8), Inches(0.32))
         pill.fill.solid()
-        pill.fill.fore_color.rgb = RGBColor(15, 23, 42)
-        pill.line.color.rgb = PRIMARY_CYAN
+        pill.fill.fore_color.rgb = RGBColor(30, 41, 59)
+        pill.line.color.rgb = PRIMARY_BLUE
         pill.line.width = Pt(1.0)
         p = pill.text_frame.paragraphs[0]
         p.text = category.upper()
         p.font.size = Pt(9)
         p.font.bold = True
-        p.font.color.rgb = PRIMARY_CYAN
+        p.font.color.rgb = PRIMARY_BLUE
         p.alignment = PP_ALIGN.CENTER
 
-        # Main Title in Header
-        tb = slide.shapes.add_textbox(Inches(0.8), Inches(0.55), Inches(11.7), Inches(0.65))
+        # 5. Main Title in Header
+        tb = slide.shapes.add_textbox(Inches(0.8), Inches(0.55), Inches(11.7), Inches(0.7))
         tf = tb.text_frame
         tf.word_wrap = True
         p_title = tf.paragraphs[0]
@@ -78,34 +78,30 @@ def create_corporate_deck():
         p_title.font.bold = True
         p_title.font.color.rgb = TEXT_WHITE
 
-    def add_structured_card(slide, left, top, width, height, header_title, accent_color=PRIMARY_CYAN):
-        """
-        Creates a crisp structured box with an integrated colored header bar
-        and clean border layout.
-        """
+    def add_structured_card(slide, left, top, width, height, header_title, accent_color=PRIMARY_BLUE):
         header_h = Inches(0.55)
 
-        # 1. Main Card Body
+        # 1. Main White Box Body
         body = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
         body.fill.solid()
         body.fill.fore_color.rgb = CARD_BG
         body.line.color.rgb = CARD_BORDER
         body.line.width = Pt(1.5)
 
-        # 2. Card Header Band
+        # 2. Header Strip at Top of Box
         hdr = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, header_h)
         hdr.fill.solid()
         hdr.fill.fore_color.rgb = CARD_HEADER
         hdr.line.color.rgb = CARD_BORDER
         hdr.line.width = Pt(1.0)
 
-        # 3. Accent Ribbon on Left of Header
+        # 3. Colored Accent Ribbon on Left Edge
         ribbon = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, Inches(0.12), header_h)
         ribbon.fill.solid()
         ribbon.fill.fore_color.rgb = accent_color
         ribbon.line.fill.background()
 
-        # 4. Header Text
+        # 4. Header Label
         tb_hdr = slide.shapes.add_textbox(left + Inches(0.25), top + Inches(0.08), width - Inches(0.35), Inches(0.4))
         p_hdr = tb_hdr.text_frame.paragraphs[0]
         p_hdr.text = header_title.upper()
@@ -113,7 +109,7 @@ def create_corporate_deck():
         p_hdr.font.bold = True
         p_hdr.font.color.rgb = accent_color
 
-        # 5. Body Text Box Container
+        # 5. Text Container
         tb_body = slide.shapes.add_textbox(left + Inches(0.2), top + header_h + Inches(0.1), width - Inches(0.4), height - header_h - Inches(0.15))
         tf_body = tb_body.text_frame
         tf_body.word_wrap = True
@@ -122,9 +118,9 @@ def create_corporate_deck():
     def add_bullets(tf, items, font_size=12, space_after=10):
         for idx, item in enumerate(items):
             p = tf.add_paragraph() if idx > 0 else tf.paragraphs[0]
-            p.text = f"▸  {item}"
+            p.text = f"•  {item}"
             p.font.size = Pt(font_size)
-            p.font.color.rgb = TEXT_LIGHT
+            p.font.color.rgb = TEXT_BODY
             p.space_after = Pt(space_after)
 
     # =========================================================================
@@ -137,50 +133,50 @@ def create_corporate_deck():
     bg1.fill.fore_color.rgb = BG_CANVAS
     bg1.line.fill.background()
 
-    # Top Accent Strip
-    strip = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(0.12))
-    strip.fill.solid()
-    strip.fill.fore_color.rgb = PRIMARY_CYAN
-    strip.line.fill.background()
+    # Top Navy Banner Area
+    navy_banner = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(3.2))
+    navy_banner.fill.solid()
+    navy_banner.fill.fore_color.rgb = HEADER_BAR
+    navy_banner.line.fill.background()
 
-    # Hero Badge
-    hero_b = s1.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(0.7), Inches(4.2), Inches(0.4))
-    hero_b.fill.solid()
-    hero_b.fill.fore_color.rgb = HEADER_BAR
-    hero_b.line.color.rgb = PRIMARY_CYAN
-    hero_b.line.width = Pt(1.2)
-    p = hero_b.text_frame.paragraphs[0]
-    p.text = "ACADEMIC SUMMER INTERNSHIP FINAL DEFENSE"
+    # Accent Line
+    acc_line = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, Inches(3.15), Inches(13.333), Inches(0.06))
+    acc_line.fill.solid()
+    acc_line.fill.fore_color.rgb = PRIMARY_BLUE
+    acc_line.line.fill.background()
+
+    # Badge
+    b1 = s1.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(0.5), Inches(4.5), Inches(0.4))
+    b1.fill.solid()
+    b1.fill.fore_color.rgb = RGBColor(30, 41, 59)
+    b1.line.color.rgb = PRIMARY_BLUE
+    b1.line.width = Pt(1.0)
+    p = b1.text_frame.paragraphs[0]
+    p.text = "ACADEMIC SUMMER INTERNSHIP DEFENSE"
     p.font.size = Pt(10)
     p.font.bold = True
-    p.font.color.rgb = PRIMARY_CYAN
+    p.font.color.rgb = PRIMARY_BLUE
     p.alignment = PP_ALIGN.CENTER
 
-    # Title & Tagline Box
-    t_box = s1.shapes.add_textbox(Inches(0.8), Inches(1.3), Inches(11.7), Inches(1.8))
+    # Project Title
+    t_box = s1.shapes.add_textbox(Inches(0.8), Inches(1.0), Inches(11.7), Inches(1.8))
     tf = t_box.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
     p.text = "TalentStream AI"
     p.font.size = Pt(46)
     p.font.bold = True
-    p.font.color.rgb = PRIMARY_CYAN
+    p.font.color.rgb = PRIMARY_BLUE
 
     p2 = tf.add_paragraph()
     p2.text = "Autonomous HR Recruitment, Candidate Scoring & Outreach Agent"
     p2.font.size = Pt(20)
     p2.font.bold = True
     p2.font.color.rgb = TEXT_WHITE
-    p2.space_before = Pt(6)
+    p2.space_before = Pt(4)
 
-    p3 = tf.add_paragraph()
-    p3.text = "A practical AI solution eliminating manual resume screening and drafting bottlenecks"
-    p3.font.size = Pt(13)
-    p3.font.color.rgb = TEXT_MUTED
-    p3.space_before = Pt(4)
-
-    # 2 Structured Hero Cards
-    tf_c1 = add_structured_card(s1, Inches(0.8), Inches(3.5), Inches(5.6), Inches(3.4), "Candidate & Academic Details", PRIMARY_CYAN)
+    # 2 Structured White Cards
+    tf_c1 = add_structured_card(s1, Inches(0.8), Inches(3.5), Inches(5.6), Inches(3.4), "Candidate & Academic Details", PRIMARY_BLUE)
     add_bullets(tf_c1, [
         "Candidate Name: Likhitha Narayana",
         "Internship Role: Full-Stack AI Developer Intern",
@@ -211,7 +207,7 @@ def create_corporate_deck():
     s2 = prs.slides.add_slide(blank_layout)
     build_slide_base(s2, "Introduction: The Real-World Problem in Recruitment")
 
-    tf1 = add_structured_card(s2, Inches(0.8), Inches(1.6), Inches(3.7), Inches(5.3), "The Daily HR Bottleneck", PRIMARY_CYAN)
+    tf1 = add_structured_card(s2, Inches(0.8), Inches(1.6), Inches(3.7), Inches(5.3), "The Daily HR Bottleneck", PRIMARY_BLUE)
     add_bullets(tf1, [
         "A single job posting attracts 250 to 500 resumes within 48 hours.",
         "Recruiters spend 15 to 20 minutes reading and analyzing every single CV.",
@@ -248,7 +244,7 @@ def create_corporate_deck():
     s3 = prs.slides.add_slide(blank_layout)
     build_slide_base(s3, "Organization Profile & Workplace Environment")
 
-    tf1 = add_structured_card(s3, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.3), "Host Team & Engineering Culture", PRIMARY_CYAN)
+    tf1 = add_structured_card(s3, Inches(0.8), Inches(1.6), Inches(5.6), Inches(5.3), "Host Team & Engineering Culture", PRIMARY_BLUE)
     add_bullets(tf1, [
         "Team: Enterprise Software & Applied AI Engineering Division.",
         "Mission: Modernizing high-friction business operations with autonomous agents.",
@@ -280,7 +276,7 @@ def create_corporate_deck():
 
     objs = [
         ("1. Cut Resume Screening Time from 15 Mins to Under 2 Mins",
-         "Build a fast parsing engine that extracts skills, detects experience durations, and computes a 0–100% weighted score.", PRIMARY_CYAN),
+         "Build a fast parsing engine that extracts skills, detects experience durations, and computes a 0–100% weighted score.", PRIMARY_BLUE),
         ("2. Enable Hands-Free Commands in Everyday English",
          "Create a conversational terminal where recruiters type plain queries ('Find candidates with Python >85%') without clicking dozens of menus.", ACCENT_INDIGO),
         ("3. Eliminate Email Writing Bottlenecks with Auto-Drafting",
@@ -288,7 +284,7 @@ def create_corporate_deck():
         ("4. Safeguard Candidate Privacy via Role-Based Access Control",
          "Automatically mask personal phone numbers and emails for hiring managers to eliminate bias and protect sensitive data.", ACCENT_AMBER),
         ("5. Maintain an Immutable, SOC-2 Compliant Audit Trail",
-         "Log every user action and AI tool call with UTC timestamps, operator tags, and verified compliance status badges.", TEXT_WHITE)
+         "Log every user action and AI tool call with UTC timestamps, operator tags, and verified compliance status badges.", TEXT_DARK)
     ]
 
     for idx, (title, desc, col) in enumerate(objs):
@@ -297,7 +293,7 @@ def create_corporate_deck():
         p = tf.paragraphs[0]
         p.text = desc
         p.font.size = Pt(12)
-        p.font.color.rgb = TEXT_LIGHT
+        p.font.color.rgb = TEXT_BODY
 
     s4.notes_slide.notes_text_frame.text = (
         "I established five clear milestones for this project. The goal was to build a complete business application: "
@@ -312,11 +308,11 @@ def create_corporate_deck():
     build_slide_base(s5, "System Architecture: How TalentStream AI Works")
 
     flow_steps = [
-        ("Step 1: Input", "Paste CV Text or Upload Resume File", PRIMARY_CYAN),
+        ("Step 1: Input", "Paste CV Text or Upload Resume File", PRIMARY_BLUE),
         ("Step 2: Parsing", "Extract Technical Skills & Experience", ACCENT_INDIGO),
         ("Step 3: Scoring", "Calculate 0–100% Match vs Job Criteria", ACCENT_EMERALD),
         ("Step 4: Outreach", "LLM Drafts Tailored Follow-Up Email", ACCENT_AMBER),
-        ("Step 5: Logging", "Save Record & Write to Audit Trail", PRIMARY_CYAN)
+        ("Step 5: Logging", "Save Record & Write to Audit Trail", PRIMARY_BLUE)
     ]
 
     for idx, (st_t, st_d, col) in enumerate(flow_steps):
@@ -325,9 +321,9 @@ def create_corporate_deck():
         p = tf.paragraphs[0]
         p.text = st_d
         p.font.size = Pt(12)
-        p.font.color.rgb = TEXT_LIGHT
+        p.font.color.rgb = TEXT_BODY
 
-    tf_arc = add_structured_card(s5, Inches(0.8), Inches(4.3), Inches(11.7), Inches(2.6), "Key Architectural Advantages", PRIMARY_CYAN)
+    tf_arc = add_structured_card(s5, Inches(0.8), Inches(4.3), Inches(11.7), Inches(2.6), "Key Architectural Advantages", PRIMARY_BLUE)
     add_bullets(tf_arc, [
         "Live Operational Transparency: As the agent screens a resume, users see each thought step stream live in the console.",
         "Data-Layer Privacy Protection: Sensitive contact details are redacted before data reaches the browser DOM.",
@@ -348,7 +344,7 @@ def create_corporate_deck():
     build_slide_base(s6, "Technology Stack & Development Tools")
 
     tech_cols = [
-        ("Frontend UI & Design", PRIMARY_CYAN, [
+        ("Frontend UI & Design", PRIMARY_BLUE, [
             "HTML5 semantic structure",
             "CSS3 with glassmorphism styling",
             "Responsive layout grid",
@@ -396,7 +392,7 @@ def create_corporate_deck():
 
     mods = [
         ("1. Real-Time Analytics Dashboard",
-         "The operational command center displaying candidate volume KPIs, score distribution charts, and live agent thinking logs.", PRIMARY_CYAN),
+         "The operational command center displaying candidate volume KPIs, score distribution charts, and live agent thinking logs.", PRIMARY_BLUE),
         ("2. Autonomous Resume Screening Engine",
          "Parses candidate CVs, extracts technical keywords, maps against job descriptions, and calculates match scores.", ACCENT_INDIGO),
         ("3. Candidate Scorecard & Outreach Generator",
@@ -404,7 +400,7 @@ def create_corporate_deck():
         ("4. Natural Language Command Console",
          "An interactive CLI terminal allowing recruiters to run plain English commands ('Find candidates with Python >85%').", ACCENT_AMBER),
         ("5. Enterprise Security, RBAC & Audit Hub",
-         "Enforces contact masking across Recruiter, Manager, and Auditor roles, supported by a verifiable compliance audit log.", PRIMARY_CYAN)
+         "Enforces contact masking across Recruiter, Manager, and Auditor roles, supported by a verifiable compliance audit log.", PRIMARY_BLUE)
     ]
 
     for idx, (m_title, m_desc, col) in enumerate(mods):
@@ -413,7 +409,7 @@ def create_corporate_deck():
         p = tf.paragraphs[0]
         p.text = m_desc
         p.font.size = Pt(12)
-        p.font.color.rgb = TEXT_LIGHT
+        p.font.color.rgb = TEXT_BODY
 
     s7.notes_slide.notes_text_frame.text = (
         "Here are the five core modules I built. Each one addresses a distinct phase of the recruitment lifecycle: "
@@ -431,9 +427,9 @@ def create_corporate_deck():
     if os.path.exists(img_s8):
         s8.shapes.add_picture(img_s8, Inches(0.8), Inches(1.6), Inches(7.0), Inches(5.3))
     else:
-        add_structured_card(s8, Inches(0.8), Inches(1.6), Inches(7.0), Inches(5.3), "Dashboard Screenshot", PRIMARY_CYAN)
+        add_structured_card(s8, Inches(0.8), Inches(1.6), Inches(7.0), Inches(5.3), "Dashboard Screenshot", PRIMARY_BLUE)
 
-    tf_d1 = add_structured_card(s8, Inches(8.0), Inches(1.6), Inches(4.5), Inches(5.3), "What Recruiters See", PRIMARY_CYAN)
+    tf_d1 = add_structured_card(s8, Inches(8.0), Inches(1.6), Inches(4.5), Inches(5.3), "What Recruiters See", PRIMARY_BLUE)
     add_bullets(tf_d1, [
         "Executive Metric Cards: Shows total resumes processed (7,845), top fits identified (1,230), and interviews scheduled (56).",
         "Candidate Fit Distribution: Interactive bar chart displaying candidate score brackets across departments.",
@@ -531,21 +527,21 @@ def create_corporate_deck():
         p.text = text
         p.font.size = Pt(11)
         p.font.bold = True
-        p.font.color.rgb = PRIMARY_CYAN
+        p.font.color.rgb = TEXT_WHITE
         p.alignment = PP_ALIGN.CENTER
 
     for row_idx, row_data in enumerate(table_data):
         for col_idx, cell_value in enumerate(row_data):
             cell = table.cell(row_idx + 1, col_idx)
             cell.fill.solid()
-            cell.fill.fore_color.rgb = CARD_BG if row_idx % 2 == 0 else RGBColor(22, 32, 50)
+            cell.fill.fore_color.rgb = CARD_BG if row_idx % 2 == 0 else RGBColor(241, 245, 249)
             p = cell.text_frame.paragraphs[0]
             p.text = cell_value
             p.font.size = Pt(11)
-            p.font.color.rgb = TEXT_WHITE if col_idx == 0 else TEXT_LIGHT
+            p.font.color.rgb = TEXT_DARK if col_idx == 0 else TEXT_BODY
             if "Masked" in cell_value:
                 p.font.bold = True
-                p.font.color.rgb = ACCENT_AMBER
+                p.font.color.rgb = PRIMARY_BLUE
 
     tf_sec = add_structured_card(s11, Inches(0.8), Inches(5.1), Inches(11.7), Inches(1.8), "Why Role-Based Masking Matters in Practice", ACCENT_EMERALD)
     add_bullets(tf_sec, [
@@ -570,7 +566,7 @@ def create_corporate_deck():
             "Interviewed HR mentors about daily bottlenecks",
             "Studied common ATS workflow delays",
             "Sketched UI wireframes and database models"
-        ], PRIMARY_CYAN),
+        ], PRIMARY_BLUE),
         ("Weeks 3–5", "AI Engine Development", [
             "Engineered resume text parsing logic",
             "Designed the skill matching algorithm (0–100%)",
@@ -606,7 +602,7 @@ def create_corporate_deck():
     build_slide_base(s13, "Results, Performance Metrics & Real-World Impact")
 
     metric_cards = [
-        ("85%", "Time Saved per Resume", "Average screening time dropped from ~15 mins to under 2 mins.", PRIMARY_CYAN),
+        ("85%", "Time Saved per Resume", "Average screening time dropped from ~15 mins to under 2 mins.", PRIMARY_BLUE),
         ("94.8%", "Scoring Accuracy", "Evaluations closely matched senior recruiters on benchmark profiles.", ACCENT_EMERALD),
         ("1-Click", "Instant Outreach Drafting", "Personalized emails ready in seconds—no more manual drafting.", ACCENT_AMBER),
         ("100%", "Audit Traceability", "Every AI action and user query is permanently recorded with timestamps.", ACCENT_INDIGO)
@@ -625,9 +621,9 @@ def create_corporate_deck():
         p2 = tf.add_paragraph()
         p2.text = desc
         p2.font.size = Pt(11)
-        p2.font.color.rgb = TEXT_LIGHT
+        p2.font.color.rgb = TEXT_BODY
 
-    tf_res = add_structured_card(s13, Inches(0.8), Inches(4.3), Inches(11.7), Inches(2.6), "Verified Project Deliverables", PRIMARY_CYAN)
+    tf_res = add_structured_card(s13, Inches(0.8), Inches(4.3), Inches(11.7), Inches(2.6), "Verified Project Deliverables", PRIMARY_BLUE)
     add_bullets(tf_res, [
         "Fully Operational Application: Live web app featuring all 5 modules running in the browser.",
         "Public GitHub Codebase: Production-ready code hosted at github.com/narayanalikhitha/talentstream-ai.",
@@ -647,7 +643,7 @@ def create_corporate_deck():
     s14 = prs.slides.add_slide(blank_layout)
     build_slide_base(s14, "Conclusion & Personal Key Learnings")
 
-    tf1 = add_structured_card(s14, Inches(0.8), Inches(1.6), Inches(3.7), Inches(5.3), "Technical Learnings", PRIMARY_CYAN)
+    tf1 = add_structured_card(s14, Inches(0.8), Inches(1.6), Inches(3.7), Inches(5.3), "Technical Learnings", PRIMARY_BLUE)
     add_bullets(tf1, [
         "Engineered autonomous agents that perform deterministic business actions.",
         "Learned how to reliably parse unstructured, messy resume text.",
@@ -677,23 +673,16 @@ def create_corporate_deck():
         "and guidance throughout this journey. I am now happy to take your questions!"
     )
 
-    # Output filenames
-    out_downloads = os.path.join(downloads_dir, "TalentStream_AI_Internship_Final_PPT.pptx")
-    out_project = os.path.join(os.path.dirname(__file__), "TalentStream_AI_Internship_Final_PPT.pptx")
+    # Save to a fresh, distinct presentation filename: TalentStream_AI_Internship_Presentation_Clean_Theme.pptx
+    out_file = os.path.join(downloads_dir, "TalentStream_AI_Internship_Presentation_Clean_Theme.pptx")
+    out_project = os.path.join(os.path.dirname(__file__), "TalentStream_AI_Internship_Presentation_Clean_Theme.pptx")
 
-    # If file is open, write to a fresh V3 filename to prevent permission lock
-    try:
-        prs.save(out_downloads)
-        print(f"[SUCCESS] Saved to: {out_downloads}")
-    except PermissionError:
-        out_downloads_v3 = os.path.join(downloads_dir, "TalentStream_AI_Internship_Presentation_V3.pptx")
-        prs.save(out_downloads_v3)
-        print(f"[NOTE] Original was open in PowerPoint. Saved to fresh file: {out_downloads_v3}")
-
+    prs.save(out_file)
     try:
         prs.save(out_project)
-    except PermissionError:
+    except Exception:
         pass
+    print(f"[SUCCESS] Clean theme presentation saved to: {out_file}")
 
 if __name__ == "__main__":
     create_corporate_deck()
